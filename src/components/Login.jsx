@@ -4,9 +4,12 @@ import { checkValidData } from "../utils/validate";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -14,6 +17,7 @@ const Login = () => {
   const userName = useRef(null);
   const password = useRef(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleButtonClick = () => {
     const message = checkValidData(
@@ -35,7 +39,30 @@ const Login = () => {
           // Signed up
           const user = userCredential.user;
           console.log(user);
-          navigate("/browse");
+
+          updateProfile(user, {
+            displayName: userName.current.value,
+            photoURL:
+              "https://assets.leetcode.com/users/shinchan08113/avatar_1709519221.png",
+          })
+            .then(() => {
+              // Profile updated!
+              const { uid, email, displayName, photoURL } = auth.currentUser;
+              dispatch(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                  photoURL: photoURL,
+                })
+              );
+              navigate("/browse");
+            })
+            .catch((error) => {
+              // An error occurred
+              setErrorMessage(error.message);
+            });
+
           // ...
         })
         .catch((error) => {
