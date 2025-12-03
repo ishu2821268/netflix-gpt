@@ -24,3 +24,20 @@ export const SUPPORTED_LANGUAGES = [
   { identifier: "spanish", name: "Spanish" },
   { identifier: "chinese", name: "Chinese" },
 ];
+
+export const OPENAI_KEY = "AIzaSyBqDQSaFYk1rrjN4nbw_JAluqA8bDf6fbc";
+
+// npm install openai
+//   import OpenAI from "openai";
+
+// const openai = new OpenAI({
+//   apiKey: "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",
+// });
+
+// const response = openai.responses.create({
+//   model: "gpt-5-nano",
+//   input: "write a haiku about ai",
+//   store: true,
+// });
+
+// response.then((result) => console.log(result.output_text));
