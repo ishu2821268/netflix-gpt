@@ -10,12 +10,15 @@ import { auth } from "../utils/firebase";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { BANNER_IMAGE, USER_AVATAR } from "../utils/constants";
+
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
+
   const email = useRef(null);
   const userName = useRef(null);
   const password = useRef(null);
+
   const dispatch = useDispatch();
 
   const handleButtonClick = () => {
@@ -44,10 +47,10 @@ const Login = () => {
               const { uid, email, displayName, photoURL } = auth.currentUser;
               dispatch(
                 addUser({
-                  uid: uid,
-                  email: email,
-                  displayName: displayName,
-                  photoURL: photoURL,
+                  uid,
+                  email,
+                  displayName,
+                  photoURL,
                 })
               );
             })
@@ -57,8 +60,8 @@ const Login = () => {
         })
         .catch((error) => {
           const errorCode = error.code;
-          const errorMessage = error.message;
-          setErrorMessage(errorCode + "-" + errorMessage);
+          const errorMsg = error.message;
+          setErrorMessage(errorCode + " - " + errorMsg);
         });
     } else {
       signInWithEmailAndPassword(
@@ -66,67 +69,95 @@ const Login = () => {
         email?.current?.value,
         password?.current?.value
       )
-        .then((userCredential) => {
-          const user = userCredential.user;
-        })
+        .then(() => {})
         .catch((error) => {
           const errorCode = error.code;
-          const errorMessage = error.message;
-          setErrorMessage(errorCode + "-" + errorMessage);
+          const errorMsg = error.message;
+          setErrorMessage(errorCode + " - " + errorMsg);
         });
     }
   };
 
   const toogleSignInForm = () => {
     setIsSignInForm(!isSignInForm);
+    setErrorMessage(null);
   };
 
   return (
-    <div>
+    <div className="relative min-h-screen bg-black text-white overflow-hidden">
       <Header />
-      <div className="absolute">
-        <img alt="banner-img" src={BANNER_IMAGE} />
+      <div className="absolute inset-0 z-0">
+        <img
+          alt="banner-img"
+          src={BANNER_IMAGE}
+          className="w-full h-full object-cover opacity-60"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black" />
       </div>
-      <form
-        onSubmit={(e) => e.preventDefault()}
-        className="w-3/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0 text-white rounded-xl bg-opacity-80 bg-gradient-to-b from-black"
-      >
-        <h1 className="font-bold text-3xl py-4">
-          {isSignInForm ? "Sign In" : "Sign Up"}
-        </h1>
-        <input
-          ref={email}
-          type="text"
-          placeholder="Email Address"
-          className="p-4 my-4 w-full bg-[#121110]"
-        />
-        {!isSignInForm && (
-          <input
-            ref={userName}
-            type="text"
-            placeholder=" userName"
-            className="p-4 my-4 w-full bg-[#121110]"
-          />
-        )}
-        <input
-          ref={password}
-          type="password"
-          placeholder="Password"
-          className="p-4 my-4 w-full bg-[#121110]"
-        />
-        <p className="font-bold text-red-700 py-2 text-xl">{errorMessage}</p>
-        <button
-          className="p-4 my-6 bg-red-700 w-full rounded-lg"
-          onClick={handleButtonClick}
+      <div className="relative z-10 flex items-center justify-center px-4 pt-24 md:pt-28 pb-10">
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          className="w-full max-w-md bg-black/80 bg-gradient-to-b from-black/90 via-black/80 to-black/90 
+                     rounded-2xl border border-white/10 shadow-2xl px-8 py-10"
         >
-          {isSignInForm ? "Sign In" : "Sign Up"}
-        </button>
-        <p className="py-4 cursor-pointer" onClick={toogleSignInForm}>
-          {isSignInForm
-            ? "New to Netflix? SignUp Now"
-            : "Already User! Sign In Now"}
-        </p>
-      </form>
+          <h1 className="font-bold text-3xl md:text-4xl mb-6">
+            {isSignInForm ? "Sign In" : "Sign Up"}
+          </h1>
+
+          <div className="space-y-4">
+            <input
+              ref={email}
+              type="text"
+              placeholder="Email address"
+              className="w-full px-4 py-3 rounded-md bg-[#121110] text-sm outline-none 
+                         focus:ring-2 focus:ring-red-600"
+            />
+
+            {!isSignInForm && (
+              <input
+                ref={userName}
+                type="text"
+                placeholder="Username"
+                className="w-full px-4 py-3 rounded-md bg-[#121110] text-sm outline-none 
+                           focus:ring-2 focus:ring-red-600"
+              />
+            )}
+
+            <input
+              ref={password}
+              type="password"
+              placeholder="Password"
+              className="w-full px-4 py-3 rounded-md bg-[#121110] text-sm outline-none 
+                         focus:ring-2 focus:ring-red-600"
+            />
+          </div>
+
+          {errorMessage && (
+            <p className="mt-3 text-sm font-semibold text-red-500">
+              {errorMessage}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            className="mt-6 w-full py-3 rounded-md bg-red-700 hover:bg-red-600 
+                       font-semibold text-white text-sm md:text-base transition"
+            onClick={handleButtonClick}
+          >
+            {isSignInForm ? "Sign In" : "Sign Up"}
+          </button>
+
+          <p className="mt-4 text-sm text-gray-300">
+            {isSignInForm ? "New to Netflix? " : "Already a user? "}
+            <span
+              className="font-semibold text-white cursor-pointer hover:underline"
+              onClick={toogleSignInForm}
+            >
+              {isSignInForm ? "Sign up now" : "Sign in now"}
+            </span>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };
