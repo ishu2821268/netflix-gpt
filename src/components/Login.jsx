@@ -28,14 +28,12 @@ const Login = () => {
     if (message) return;
 
     if (!isSignInForm) {
-      //sign-up form
       createUserWithEmailAndPassword(
         auth,
         email?.current?.value,
         password?.current?.value
       )
         .then((userCredential) => {
-          // Signed up
           const user = userCredential.user;
 
           updateProfile(user, {
@@ -43,7 +41,6 @@ const Login = () => {
             photoURL: USER_AVATAR,
           })
             .then(() => {
-              // Profile updated!
               const { uid, email, displayName, photoURL } = auth.currentUser;
               dispatch(
                 addUser({
@@ -55,29 +52,22 @@ const Login = () => {
               );
             })
             .catch((error) => {
-              // An error occurred
               setErrorMessage(error.message);
             });
-
-          // ...
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           setErrorMessage(errorCode + "-" + errorMessage);
-          // ..
         });
     } else {
-      //Sign-In
       signInWithEmailAndPassword(
         auth,
         email?.current?.value,
         password?.current?.value
       )
         .then((userCredential) => {
-          // Signed in
           const user = userCredential.user;
-          // ...
         })
         .catch((error) => {
           const errorCode = error.code;

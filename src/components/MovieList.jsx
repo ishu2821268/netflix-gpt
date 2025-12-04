@@ -7,8 +7,9 @@ const MovieList = ({ title, movies = [] }) => {
   const scroll = (dir = "right") => {
     const el = rowRef.current;
     if (!el) return;
-    const amount = Math.floor(el.clientWidth * 0.8); // scroll ~80% of visible width
-    const to = dir === "right" ? el.scrollLeft + amount : el.scrollLeft - amount;
+    const amount = Math.floor(el.clientWidth * 0.8);
+    const to =
+      dir === "right" ? el.scrollLeft + amount : el.scrollLeft - amount;
     el.scrollTo({ left: to, behavior: "smooth" });
   };
 
@@ -17,11 +18,12 @@ const MovieList = ({ title, movies = [] }) => {
   return (
     <div className="relative px-6 mb-10">
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-2xl md:text-3xl font-semibold text-white">{title}</h2>
+        <h2 className="text-2xl md:text-3xl font-semibold text-white">
+          {title}
+        </h2>
       </div>
 
       <div className="relative group">
-        {/* Left button */}
         <button
           onClick={() => scroll("left")}
           aria-label="scroll left"
@@ -29,8 +31,6 @@ const MovieList = ({ title, movies = [] }) => {
         >
           ‹
         </button>
-
-        {/* Scrollable row */}
         <div
           ref={rowRef}
           className="flex gap-4 overflow-x-auto pb-3 scroll-smooth hide-scrollbar px-2 md:px-6"
@@ -39,15 +39,12 @@ const MovieList = ({ title, movies = [] }) => {
             <div
               key={movie.id}
               className="flex-shrink-0"
-              // spacing to mimic Netflix gaps
               style={{ width: "auto" }}
             >
               <MovieCard movie={movie} />
             </div>
           ))}
         </div>
-
-        {/* Right button */}
         <button
           onClick={() => scroll("right")}
           aria-label="scroll right"
@@ -55,8 +52,6 @@ const MovieList = ({ title, movies = [] }) => {
         >
           ›
         </button>
-
-        {/* soft gradient edges */}
         <div className="pointer-events-none absolute left-0 top-0 h-full w-16 bg-gradient-to-r from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         <div className="pointer-events-none absolute right-0 top-0 h-full w-16 bg-gradient-to-l from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>

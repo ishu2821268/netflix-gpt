@@ -10,30 +10,30 @@ import { useSelector } from "react-redux";
 
 const Browse = () => {
   const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
+
   useNowPlayingMovies();
   usePopularMovies();
   useTopRatedMovies();
   useFeaturedMovies();
+
   return (
-    <div>
+    <div className="bg-black min-h-screen text-white overflow-x-hidden">
       <Header />
-      {showGptSearch ? (
-        <GptSearch />
-      ) : (
-        <>
-          <MainContainer />
-          <SecondaryContainer />
-        </>
-      )}
+
+      <main className="pt-16 md:pt-20">
+        {showGptSearch ? (
+          <section className="min-h-[calc(100vh-4rem)]">
+            <GptSearch />
+          </section>
+        ) : (
+          <>
+            <MainContainer />
+            <SecondaryContainer />
+          </>
+        )}
+      </main>
     </div>
   );
 };
 
 export default Browse;
-
-//MainContainer:-
-//1.Video-container
-//2.Title,Desc
-//SecondaryContainer:-
-//1.List of Movies
-//2.Cards of Movies

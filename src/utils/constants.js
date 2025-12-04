@@ -7,12 +7,21 @@ export const BANNER_IMAGE =
 export const USER_AVATAR =
   "https://wallpapers.com/images/hd/netflix-profile-pictures-1000-x-1000-qo9h82134t9nv0j0.jpg";
 
+export const TMDB_TOKEN = process.env.REACT_APP_TMDB_KEY;
+export const OPENAI_KEY = process.env.REACT_APP_OPENAI_KEY;
+
+if (!TMDB_TOKEN) {
+  console.warn("⚠️ REACT_APP_TMDB_KEY is not defined. TMDB requests will fail (401).");
+}
+if (!OPENAI_KEY) {
+  console.warn("⚠️ REACT_APP_OPENAI_KEY is not defined. Gemini requests will fail.");
+}
+
 export const API_OPTIONS = {
   method: "GET",
   headers: {
     accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyOWYzMjY0YTBiYjlmYzYzYzdmZjFmZWE5YjAzMmNjYSIsIm5iZiI6MTc2MTExMTI4MC4zMywic3ViIjoiNjhmODZjZjBhYTZjNDI4MDQ3ODA1NTg4Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.ICu3B4tv-RA97gVNNSYiMdqIwpIZgnSPwAxXDv9tLG0",
+    Authorization: `Bearer ${TMDB_TOKEN}`,
   },
 };
 
@@ -24,20 +33,3 @@ export const SUPPORTED_LANGUAGES = [
   { identifier: "spanish", name: "Spanish" },
   { identifier: "chinese", name: "Chinese" },
 ];
-
-export const OPENAI_KEY = "AIzaSyBqDQSaFYk1rrjN4nbw_JAluqA8bDf6fbc";
-
-// npm install openai
-//   import OpenAI from "openai";
-
-// const openai = new OpenAI({
-//   apiKey: "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",
-// });
-
-// const response = openai.responses.create({
-//   model: "gpt-5-nano",
-//   input: "write a haiku about ai",
-//   store: true,
-// });
-
-// response.then((result) => console.log(result.output_text));

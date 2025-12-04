@@ -14,7 +14,6 @@ const VideoBackground = ({ movieId }) => {
 
   return (
     <div className="absolute inset-0 w-full h-full overflow-hidden">
-      {/* Background Video */}
       {key ? (
         <iframe
           className="absolute top-0 left-0 w-full h-full"
@@ -28,13 +27,9 @@ const VideoBackground = ({ movieId }) => {
           Loading trailer...
         </div>
       )}
-
-      {/* Cinematic gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none" />
     </div>
   );
 };
 
 export default VideoBackground;
-
-

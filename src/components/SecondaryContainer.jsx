@@ -5,8 +5,6 @@ const SecondaryContainer = () => {
   const movies = useSelector((store) => store.movies);
 
   if (!movies?.nowPlayingMovies) return null;
-
-  // You can replace these categories with real category arrays later.
   const sections = [
     { title: "Now Playing Movies", items: movies.nowPlayingMovies },
     { title: "Popular Movies", items: movies.popularMovies },
